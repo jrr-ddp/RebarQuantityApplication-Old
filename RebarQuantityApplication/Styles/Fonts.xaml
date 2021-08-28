@@ -1,0 +1,50 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:RebarQuantityApplication"
+                     xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--#region FontResources-->
+    <FontFamily x:Key="iFontComforta">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Comfortaa</FontFamily>
+    <FontFamily x:Key="iFontMontSerratEL">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Montserrat ExtraLight</FontFamily>
+    <FontFamily x:Key="iFontMontSerratMedium">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Montserrat Medium</FontFamily>
+    <FontFamily x:Key="iFontMontSerratRegular">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Montserrat</FontFamily>
+    <FontFamily x:Key="iFontMontSerratThin">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Montserrat Thin</FontFamily>
+    <FontFamily x:Key="iFontMontSerratSemiBold">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Montserrat SemiBold</FontFamily>
+    <FontFamily x:Key="iFontMontSerratLight">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Montserrat Light</FontFamily>
+
+    <FontFamily x:Key="iFontMontSerratAlternateMedium">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Montserrat Alternates Medium</FontFamily>
+    <FontFamily x:Key="iFontMontSerratAlternateRegular">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Montserrat Alternates</FontFamily>
+    <FontFamily x:Key="iFontMontSerratAlternateSemiBold">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Montserrat Alternates SemiBold</FontFamily>
+    <FontFamily x:Key="iFontMontSerratAlternateLight">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Montserrat Alternates Light</FontFamily>
+    <FontFamily x:Key="iFontJuiceBox">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Juicebox</FontFamily>
+
+    <FontFamily x:Key="iFontRoboto">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Roboto</FontFamily>
+    <FontFamily x:Key="iFontRobotoLight">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Roboto Lt</FontFamily>
+    <FontFamily x:Key="iFontOfficeSquare">pack://application:,,,/RebarQuantityApplication;component/Fonts/#Office Square</FontFamily>
+
+    <!--#endregion-->
+
+    <!--#region FontSize-->
+    <system:Double x:Key="FontSizeSmaller">10</system:Double>
+    <system:Double x:Key="FontSizeSmall">12</system:Double>
+    <system:Double x:Key="FontSizeRegular">14</system:Double>
+    <system:Double x:Key="FontSizeLarge">20</system:Double>
+    <system:Double x:Key="FontSizeXLarge">24</system:Double>
+    <system:Double x:Key="FontSizeXXLarge">30</system:Double>
+    <!--#endregion-->
+
+    <Style TargetType="{x:Type Control}" x:Key="BaseStyle">
+        <Setter Property="FontFamily" Value="{StaticResource iFontComforta}" />
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}" x:Key="BaseTextBlockStyle">
+        <Setter Property="FontFamily" Value="{StaticResource iFontComforta}" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}" />
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource BaseStyle}" />
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource BaseStyle}" />
+    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlockStyle}" />
+    <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource BaseStyle}" />
+
+</ResourceDictionary>

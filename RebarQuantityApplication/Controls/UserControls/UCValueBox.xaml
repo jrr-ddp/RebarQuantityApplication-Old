@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="RebarQuantityApplication.UCValueBox"
+             
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RebarQuantityApplication"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="30">
+    <UserControl.Resources>
+        <!--<local:BoolToVisConverter x:Key="LocalBooltoVis"/>-->
+    </UserControl.Resources>
+
+    <Grid Height="{Binding ControlHeight, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCValueBox}}}" Width="{Binding ControlWidth, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCValueBox}}}">
+        <Border Background="{Binding CustomBackground, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCValueBox}}}" Visibility="{Binding HiglightActive, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCValueBox}}}"/>
+        <!--Converter={StaticResource LocalBooltoVis},-->
+        <Border BorderBrush="Gray" BorderThickness="1">
+            <TextBlock Text="{Binding CustomContent, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCValueBox}}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+    </Grid>
+</UserControl>

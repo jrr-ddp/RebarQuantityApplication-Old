@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="RebarQuantityApplication.UCValueEntry"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RebarQuantityApplication"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="80" Height="30" Width="65" >
+
+    <Border x:Name="brdrMain" CornerRadius="5" Background="White" Margin="2,0" DataContext="{Binding}">
+        <Grid x:Name="grdMain" Background="{x:Null}" >
+            <!--<Image Source="/Shapoorji-TimeManager;component/AppResources/Images/Pen.png" Height="13"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" Visibility="{Binding Description, Converter={StaticResource CnvrtrStringToVisibility}}"/>-->
+            <TextBox x:Name="tbxMain" FontFamily="{StaticResource iFontMontSerratRegular}" FontSize="13" Text="{Binding TotalHours, Converter={StaticResource DoubleToStringConverter}, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" FontWeight="Bold" PreviewTextInput="tbxMain_PreviewTextInput" IsEnabled="{Binding IsSubmitted, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CnrtrInverseBool}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCValueEntry}}}" Tag="{Binding ElementName=grdMain, Path=DataContext, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.ContextMenu>
+                    <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource self}}">
+                        <!--A MenuItem in a ContextMenu can't use an ElementName binding. So, use PlacementTarget.Tag Method. In our case, placementtarget is the textbox. So bind the desired value to its tag-->
+                        <!--<MenuItem Header="Add Description" CommandParameter="{Binding}"  Command="{Binding Source={x:Static local:VMMain.Instance}, Path=ViewModelTimeSheet.CMDAddDescription, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" />-->
+                        <!---->
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="Foreground" Value="{StaticResource WordDarkGrayBrush}"/>
+                        <Setter Property="Template">
+                            <!--We reset the template to just display the part content-->
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TextBox">
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSubmitted, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCValueEntry}}}" Value="True"/>
+                                    <Condition Binding="{Binding IsApproved, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCValueEntry}}}" Value="True"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSubmitted, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCValueEntry}}}" Value="True"/>
+                                    <Condition Binding="{Binding IsApproved, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCValueEntry}}}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </Grid>
+    </Border>
+</UserControl>

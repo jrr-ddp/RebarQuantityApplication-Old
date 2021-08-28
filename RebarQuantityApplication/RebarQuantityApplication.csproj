@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B01F3F27-04EB-4C57-AFC7-B0B799B55F2B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RebarQuantityApplication</RootNamespace>
+    <AssemblyName>RebarQuantityApplication</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\ICon %282%29.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=8.0.13.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Installer for Windows\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Animation\AnimationSlideInDirection.cs" />
+    <Compile Include="Animation\FrameworkElementAnimations.cs" />
+    <Compile Include="Animation\PageAnimation.cs" />
+    <Compile Include="Animation\PageAnimations.cs" />
+    <Compile Include="Animation\StoryboardHelpers.cs" />
+    <Compile Include="AttachedProprties\BaseAttachedProperty.cs" />
+    <Compile Include="AttachedProprties\BorderAttachedProperties.cs" />
+    <Compile Include="AttachedProprties\ButtonAttachedProperty.cs" />
+    <Compile Include="AttachedProprties\FrameWorkElementAnimationAttachedProperties.cs" />
+    <Compile Include="AttachedProprties\NoFrameHistory.cs" />
+    <Compile Include="AttachedProprties\PanelChildMarginProperty.cs" />
+    <Compile Include="AttachedProprties\ScrollViewerAttachedProperties.cs" />
+    <Compile Include="Controls\Page\AppInfo.xaml.cs">
+      <DependentUpon>AppInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\Elements.cs" />
+    <Compile Include="Model\CommonModels.cs" />
+    <Compile Include="Model\Interfaces.cs" />
+    <Compile Include="Model\MDetails.cs" />
+    <Compile Include="Controls\UserControls\UCButtonWImage.xaml.cs">
+      <DependentUpon>UCButtonWImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserControls\UCButtonWImageNText.xaml.cs">
+      <DependentUpon>UCButtonWImageNText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserControls\UCLabel.xaml.cs">
+      <DependentUpon>UCLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserControls\UCValueBox.xaml.cs">
+      <DependentUpon>UCValueBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserControls\UCValueEntry.xaml.cs">
+      <DependentUpon>UCValueEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MRebarQuantity.cs" />
+    <Compile Include="ValueConverters\RQAConverters.cs" />
+    <Compile Include="ViewModel\Base\RelayCommand.cs" />
+    <Compile Include="ViewModel\SubViewModels\VMMainPage.cs" />
+    <Compile Include="ViewModel\SubViewModels\VMReportPage.cs" />
+    <Compile Include="ViewModel\WindowsViewModel.cs" />
+    <Compile Include="Window\WindowResizer.cs" />
+    <Page Include="Controls\Page\AppInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Styles\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Fonts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\GridViewColumnHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\GroupBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\RQARD.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Scroll.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\TabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\TabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\TextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Texts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UserControls\UCButtonWImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UserControls\UCButtonWImageNText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UserControls\UCLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UserControls\UCValueBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UserControls\UCValueEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Resource Include="Fonts\Comfortaa-Light.ttf" />
+    <Resource Include="Fonts\Comfortaa-Regular.ttf" />
+    <Resource Include="Fonts\Juicebox.otf" />
+    <Resource Include="Fonts\Lato-Bold.ttf" />
+    <Resource Include="Fonts\Lato-Regular.ttf" />
+    <Resource Include="Fonts\Lato-Semibold.ttf" />
+    <Resource Include="Fonts\Montserrat-Bold.otf" />
+    <Resource Include="Fonts\Montserrat-ExtraLight.otf" />
+    <Resource Include="Fonts\Montserrat-Light.otf" />
+    <Resource Include="Fonts\Montserrat-Medium.otf" />
+    <Resource Include="Fonts\Montserrat-Regular.otf" />
+    <Resource Include="Fonts\Montserrat-SemiBold.otf" />
+    <Resource Include="Fonts\Montserrat-Thin.otf" />
+    <Resource Include="Fonts\MontserratAlternates-Light.otf" />
+    <Resource Include="Fonts\MontserratAlternates-Medium.otf" />
+    <Resource Include="Fonts\MontserratAlternates-Regular.otf" />
+    <Resource Include="Fonts\MontserratAlternates-SemiBold.otf" />
+    <Resource Include="Fonts\Office Square.otf" />
+    <Resource Include="Fonts\Roboto-Bold.ttf" />
+    <Resource Include="Fonts\Roboto-Light.ttf" />
+    <Resource Include="Fonts\Roboto-Medium.ttf" />
+    <Resource Include="Fonts\Roboto-Regular.ttf" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ICon %282%29.ico" />
+    <Resource Include="Images\ICon %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\RemoveBlack.png" />
+    <Resource Include="Images\RemoveBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AddProject.png" />
+    <Resource Include="Images\AddProjectBlue.png" />
+    <Resource Include="Images\AddWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SP Logo.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.Shell">
+      <Version>3.0.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SPLogo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Addrow1.png" />
+    <Resource Include="Images\Addrow2.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

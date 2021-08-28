@@ -1,0 +1,520 @@
+﻿<Window x:Class="RebarQuantityApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RebarQuantityApplication"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        x:Name="AppWindow"
+        Icon="Images/ICon (2).ico"
+        MinWidth="{Binding WindowMinimumWidth}"
+        MinHeight="{Binding WindowMinimumHeight}"
+        Deactivated="AppWindow_Deactivated"
+        Activated="AppWindow_Activated"
+        Title="Tender and IFC Rebar Quantity" Height="900" Width="1500">
+    <Window.Resources>
+        <Style TargetType="{x:Type local:MainWindow}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <!-- Outer border with the dropshadow margin -->
+                        <Border Padding="{Binding OuterMarginSizeThickness, FallbackValue=10}">
+                            <!--BorderBrush="{StaticResource ForegroundVeryDarkBrush}" BorderThickness="{Binding FlatBorderThickness}"-->
+                            <!-- Main window outline -->
+                            <Grid>
+                                <!-- Outer dragging border -->
+                                <!--
+                                <Border BorderThickness="{Binding BeingMoved, Converter={local:BooleanToBorderThicknessConverter}}"
+                                        Panel.ZIndex="2"
+                                        CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}"
+                                        BorderBrush="{StaticResource WordOrangeBrush}" />-->
+                                <!-- Opacity mask for corners on grid -->
+                                <Border x:Name="Container"
+                                        Background="{StaticResource BackgroundLightBrush}"
+                                        CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}" />
+                                <!-- Window border and dropshadown -->
+                                <Border CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}"
+                                        Background="{StaticResource ForegroundLightGreenBrush}">
+                                    <!--Background="{Binding ForegroundLightBrush, FallbackValue=White}">-->
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Opacity="0.2" />
+                                    </Border.Effect>
+                                </Border>
+                                <!-- The main window content -->
+                                <Grid>
+                                    <!-- Corner clipping -->
+                                    <Grid.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=Container}" />
+                                    </Grid.OpacityMask>
+
+                                    <Grid.RowDefinitions>
+                                        <!-- Title Bar -->
+                                        <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=40}" />
+                                        <!-- Drop shadow -->
+                                        <!--<RowDefinition Height="Auto" />-->
+                                        <!-- Window Content -->
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Title Bar -->
+                                    <Grid Grid.Column="0" Panel.ZIndex="1">
+
+                                        <Grid.ColumnDefinitions>
+                                            <!-- Icon -->
+                                            <ColumnDefinition Width="Auto" />
+                                            <!-- Title -->
+                                            <ColumnDefinition Width="*" />
+                                            <!-- Windows Button -->
+                                            <ColumnDefinition Width="Auto" />
+
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Icon -->
+                                        <Button Style="{StaticResource SystemIconButton}" Command="{Binding MenuCommand}">
+                                            <Image Source="/Images/Image.png" />
+                                        </Button>
+
+                                        <!-- Title -->
+                                        <Viewbox Grid.Column="0" Grid.ColumnSpan="3" Margin="5">
+                                            <StackPanel>
+                                                <TextBlock FontFamily="{StaticResource iFontMontSerratSemiBold}" FontSize="{StaticResource FontSizeRegular}" Margin="0,0,0,-3">
+                                                    <Run Text="Tender and" Foreground="{StaticResource WordPinkBrush}"/>
+                                                    <Run Text=" IFC" Foreground="{StaticResource WordPinkBrush}"/>
+                                                    <Run Text="Rebar Quantity" Foreground="{StaticResource WordPinkBrush}"/>
+                                                </TextBlock>
+                                                <TextBlock Text="By Design Studio" Foreground="{StaticResource ForegroundLightRedBrush}" TextAlignment="Center"/>
+
+                                            </StackPanel>
+                                        </Viewbox>
+
+                                        <!-- Window Buttons -->
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                            <Button Command="{Binding MinimizeCommand}" Style="{StaticResource WindowControlButton}" Content="_" />
+                                            <Button Command="{Binding MaximizeCommand}" Style="{StaticResource WindowControlButton}" Content="[ ]" />
+                                            <Button Command="{Binding CloseCommand}" Style="{StaticResource WindowCloseButton}" Content="X" />
+                                        </StackPanel>
+
+                                    </Grid>
+
+                                    <!-- Page Content -->
+                                    <Border Grid.Row="1" Padding="{Binding InnerContentPadding}" ClipToBounds="True">
+                                        <ContentPresenter Content="{TemplateBinding Content}" />
+                                    </Border>
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            ResizeBorderThickness="{Binding ResizeBorderThickness}"
+            CaptionHeight="{Binding TitleHeight}"
+            CornerRadius="0"
+            GlassFrameThickness="0"
+            />
+    </WindowChrome.WindowChrome>
+
+    <Border Background="{StaticResource ForegroundLightGreenBrush}">
+
+
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Dimmed overlay -->
+            <Border Grid.ColumnSpan="2"
+                    Panel.ZIndex="10"
+                    Opacity="0.3">
+                <Border Background="{StaticResource ForegroundVeryDarkBrush}"
+                        local:AnimateFadeInProperty.Value="{Binding DimmableOverlayVisible}"
+                        />
+            </Border>
+
+            <!--Menu Controls-->
+            <Menu Grid.Row="0" VerticalAlignment="Top" FontFamily="{StaticResource iFontMontSerratMedium}" FontSize="{StaticResource FontSizeSmall}"  Background="{StaticResource ForegroundLightGreenBrush}">
+                <MenuItem Header="File">
+                    <MenuItem Header="Save as">
+                        <MenuItem Header="PDF"/>
+                        <MenuItem Header="Excel"/>
+                        <MenuItem Header="Word"/>
+                    </MenuItem>
+                    <MenuItem Header="Open"/>
+                    <MenuItem Header="Exit" Click="MenuItem_Click_1"/>
+                </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Refresh" Click="MenuItem_Click"/>
+                </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="Info" Click="MenuItem_Click_2"/>
+                </MenuItem>
+            </Menu>
+
+            <!--<ToolBar Height="25" Grid.Row="1" Background="{StaticResource ForegroundLightRedBrush}"/>-->
+            <!--MainPage-->
+            <TabControl Margin="12,12,8,8" IsSynchronizedWithCurrentItem="True" Grid.Row="2">
+                <TabItem Header="MainPage" FontFamily="{StaticResource iFontMontSerratMedium}" FontSize="{StaticResource FontSizeSmall}" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="120"/>
+
+                        </Grid.RowDefinitions>
+                        <!--<my:CommonControls x:Name="commonControls1"/>-->
+                        <!--HeaderControls-->
+                        <StackPanel Grid.Row="0"  Background="{StaticResource ForegroundLightGreenBrush}">
+                            <Grid x:Name="HeaderControls"  Background="{StaticResource ForegroundLightGreenBrush}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="137*"/>
+                                    <RowDefinition Height="314*"/>
+                                    <RowDefinition Height="0"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="619"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="0"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.RowSpan="2" Grid.Row="0" Grid.Column="0"  Background="{StaticResource ForegroundLightGreenBrush}">
+                                    <GroupBox Header="Choose Project" Height="102" Width="610" HorizontalAlignment="Left"  >
+                                        <StackPanel  Background="{StaticResource ForegroundLightGreenBrush}">
+                                            <UniformGrid Margin="0,0,159,0" Height="38" >
+                                                <TextBox x:Name="txt_PjtName" Text="Project Name" IsEnabled="True" Margin="9,4,-84,-7" Height="Auto" Background="#b6c3d0"/>
+                                                <Button Content="Add" Margin="92,4,22,-9" Click="Button_Click" Height="Auto"  />
+                                            </UniformGrid>
+                                            <UniformGrid Height="26" Margin="6,0,159,0" >
+                                                <ComboBox x:Name="ProjectName" Height="21" HorizontalAlignment="Left" Width="270" Margin="0,1,-60,-9" Initialized="ProjectName_Initialized">
+                                                    <ComboBoxItem IsSelected="true">Projects</ComboBoxItem>
+                                                </ComboBox>
+                                                <Button Content="Submit" Height="Auto" HorizontalAlignment="Left" Width="107" Margin="91,1,0,-9" />
+                                            </UniformGrid>
+                                        </StackPanel>
+                                    </GroupBox>
+                                    <UniformGrid Grid.Column="1" Grid.Row="0" >
+                                        <!--<local:UCButtonWImage SourcePrimaryImage="/Images/AddProject.png"  Margin="626,6,-42,-16" UserCommandParameter="{Binding UserCommandParameter, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCEntryControlRows}}, UpdateSourceTrigger=PropertyChanged}" UserCommand="{Binding UserCommand, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCEntryControlRows}}, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="31" Height="34"/>-->
+                                        <!--local:UCButtonWImage SourcePrimaryImage="/Images/AddProject.png" Margin="626,6,-42,16" UserCommandParameter="{Binding UserCommandParameter, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCEntryControlRoes}}, UpdateSourceTrigger=propertyChaned}"UserCommand={"Binding Usem-->
+                                    </UniformGrid>
+                                </StackPanel>
+                            </Grid>
+                            <!--<local:UCHeaderControls Margin="0,0,10,0" />-->
+                        </StackPanel>
+
+                        <!--QuantityEntryControl-->
+                        <StackPanel Grid.Row="2"  Background="{StaticResource ForegroundLightGreenBrush}">
+                            <Grid  x:Name="grdMain" Margin="0,0,0,10" Background="{StaticResource ForegroundLightGreenBrush}" Height="474" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="100"/>
+                                    <RowDefinition Height="370"/>
+                                    <RowDefinition Height="20"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" Margin="0,0,0,25">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="97*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="206"/>
+                                        <ColumnDefinition Width="161"/>
+                                        <ColumnDefinition Width="203"/>
+                                        <ColumnDefinition Width="119"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Grid.Row="0" Margin="0,0,0,10">
+                                        <TextBox x:Name="txt_flrs" Text="Floors" Margin="15,4,14,0" Height="23" Background="#b6c3d0" />
+                                        <Button Content="ADD" Margin="64,2,63,5" Width="80" Click="Button_Click_1"  />
+                                    </StackPanel>
+                                    <UniformGrid Grid.Column="2" Rows="2" Margin="10,10,10,19" >
+                                        <local:UCButtonWImage SourcePrimaryImage="/Images/Addrow1.png"  Margin="51,0,31,-13" VerticalAlignment="Center" HorizontalAlignment="Center" SourceSecondaryImage="/Images/Addrow2.png" Width="102" Height="36"/>
+                                        <!--<Button Content="AddRows" Height="Auto" Margin="40,5,40,-15" />-->
+                                        <!--<local:UCButtonWImage SourcePrimaryImage="/Images/AddProject.png" SourceSecondaryImage="/Images/AddProjectBlue.png" Margin="-5,5,155,-15" UserCommandParameter="{Binding UserCommandParameter, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCEntryControlRows}}, UpdateSourceTrigger=PropertyChanged}" UserCommand="{Binding UserCommand, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCEntryControlRows}}, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="31" Height="34"/>-->
+                                        <!--<ComboBox x:Name="Columns" Margin="22,-13,7,0" Height="24"   />-->
+                                    </UniformGrid>
+                                    <UniformGrid Grid.Column="1" Rows="2" Margin="10,0,10,10" >
+                                        <Button Content="Save" Margin="2,4,2,3"  />
+                                        <Button Content="Cancel"  Margin="2,1,2,6" />
+                                    </UniformGrid>
+                                    <UniformGrid Grid.Column="3" Rows="2" Margin="16,2,-116,10">
+                                        <local:UCLabel x:Name="lbl_pjctname" ContentText="ProjectName"  Margin="26,4,10,4"  />
+                                        <local:UCLabel x:Name="Date" Margin="26,1,10,6" />
+                                    </UniformGrid>
+                                </Grid>
+                                <StackPanel  Grid.Row="1" >
+                                    <!--<ScrollViewer HorizontalScrollBarVisibility="Auto"/>-->
+                                    <Grid Grid.Row="1" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                        <ListView x:Name="regularListView1" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Height="Auto" IsSynchronizedWithCurrentItem="True" Background="{StaticResource ForegroundLightGreenBrush}" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                            <DockPanel Height="30" Width="2425" Background="{Binding ForegroundLightGreenBrush}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                                <TextBlock Text="Floors" Height="20" Width="146" TextWrapping="Wrap" TextAlignment="Center" Margin="0,5"/>
+                                                <TextBlock Text="Tender Raft Foundation" Height="25" Width="80" TextWrapping="Wrap" TextAlignment="Center" Margin="0,2,0,3"/>
+                                                <TextBlock Text="IFC Raft Foundation" Height="25" Width="80" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Retaining Wall" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC Retaining Wall" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Columns" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC Columns" Height="25" Width="70" TextWrapping="Wrap" Margin="0,3,0,2" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Water-Tank Wall" Height="25" Width="75" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC Water-Tank Wall" Height="25" Width="75" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Core-Wall" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC Core-Wall" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Shear-Wall" Height="25" Width="75" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC Shear-Wall" Height="25" Width="75" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Ramp-Wall" Height="25" Width="75" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC Ramp-Wall" Height="25" Width="75" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Parapet Walls" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC Parapet Walls" Height="25" Width="80" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Upstands Walls" Height="25" Width="75" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC Upstands Walls" Height="25" Width="75" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Beams" Height="25" Width="65" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC Beams" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender RCC Slabs" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC RCC Slabs" Height="25" Width="60" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender PT Slabs" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC PT Slabs" Height="25" Width="50" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Ramp Slab" Height="25" Width="75" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFCRamp Slab" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Staircase" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC Staircase" Height="25" Width="70" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="Tender Total" Height="25" Width="50" TextWrapping="Wrap" FontWeight="Bold" Foreground="#FFAA0000" TextAlignment="Center"/>
+                                                <TextBlock Text="IFC Total" Height="25" Width="65" TextWrapping="Wrap" FontWeight="Bold" Foreground="#FFAA0000" TextAlignment="Center"/>
+                                                <TextBlock Text="Varience" Height="25" Width="65" TextWrapping="Wrap" FontWeight="Bold" Foreground="#FFAA0000" TextAlignment="Center" />
+                                                <TextBlock Text="Remark" Height="25" Width="80" TextWrapping="Wrap" FontWeight="Bold" Foreground="#FFAA0000" TextAlignment="Center"/>
+                                            </DockPanel>
+                                        </ListView>
+                                        <!--</Grid>
+                                    <Grid Grid.Row="2" VerticalAlignment="Top">-->
+                                        <Grid Grid.Row="1" VerticalAlignment="Bottom" x:Name="EntryRow" Width="Auto" DataContext="{Binding}" Margin="0,30,20,0" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20"/>
+                                                <ColumnDefinition Width="143"/>
+                                                <ColumnDefinition Width="2026"/>
+                                                <ColumnDefinition Width="150"/>
+                                            </Grid.ColumnDefinitions>
+                                            <!--<local:UCButtonWImage  Grid.Column="0" SourcePrimaryImage="/Images/AddProject.png" SourceSecondaryImage="/Images/AddProjectBlue.png" Margin="0,13,22,21" UserCommandParameter="{Binding UserCommandParameter, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCEntryControlRows}}, UpdateSourceTrigger=PropertyChanged}" UserCommand="{Binding UserCommand, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCEntryControlRows}}, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="24" Height="26"/>-->
+                                            <local:UCButtonWImage Grid.Column="0" SourcePrimaryImage="/Images/RemoveBlack.png" SourceSecondaryImage="/Images/RemoveBlue.png" Margin="0,16,141,18" UserCommandParameter="{Binding UserCommandParameter, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCButtonWImage}}}" UserCommand="{Binding UserCommand, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCButtonWImage}}}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="24" Height="26" Grid.ColumnSpan="2"/>
+                                            <ContentControl Grid.Column="1" VerticalAlignment="Center" Height="33" Margin="5,13,15,14">
+                                                <ComboBox x:Name="FloorDetails" Height="21" Margin="-1,5,1,7" VerticalAlignment="Center" Initialized="FloorDetails_Initialized">
+                                                    <ComboBoxItem IsSelected="true">Floors</ComboBoxItem>
+                                                </ComboBox>
+                                            </ContentControl>
+                                            <!--<ListView Grid.Column="2" ItemsSource="{Binding ValueEntry, NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="32" Margin="0,13,0,15" ItemContainerStyle="{StaticResource SPStyleListViewItem}">-->
+                                            <!--ItemContainerStyle="{StaticResource SPStyleListViewItem}">-->
+                                            <Grid Grid.Column="2" VerticalAlignment="Top" Height="54" Margin="0,0,1,0" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                                <ListView x:Name="regularListView2" IsSynchronizedWithCurrentItem="True"  Background="{Binding ForegroundLightGreenBrush}" Margin="-9,0,-243,0" >
+                                                    <DockPanel Height="50" Width="2164" Background="{Binding ForegroundLightGreenBrush}" >
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="0,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="10,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0" />
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0" Background="#ffbe77"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,0,0,0" Background="#ffbe77"/>
+                                                        <local:UCValueEntry Height="25" Width="60" Margin="5,12,0,12" Background="#da5e69"/>
+                                                    </DockPanel>
+                                                    <!--<ListView.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                            </StackPanel>
+                                                        </ItemsPanelTemplate>
+                                                    </ListView.ItemsPanel>
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <local:UCValueEntry VerticalAlignment="Center" DataContext="{Binding NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}" IsSubmitted="{Binding IsSubmitted,NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" IsApproved="{Binding IsApproved,NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                                        </DataTemplate>
+                                                     </ListView.ItemTemplate>-->
+                                                </ListView>
+                                            </Grid>
+                                            <ContentControl Grid.Column="3" VerticalAlignment="Center" Height="40" Margin="141,6,-90,14"  Background="#409ffb">
+                                                <TextBox Height="36" Margin="0,2,7,2" VerticalAlignment="Center" Background="#409ffb"/>
+                                            </ContentControl>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                            <!--<local:UCQuantityEntryControl />-->
+                        </StackPanel>
+
+                        <!--FooterControls-->
+                        <StackPanel Grid.Row="3">
+                            <Border Background="{StaticResource ForegroundLightGreenBrush}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Grand Total:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,20,20,90" FontFamily="{StaticResource iFontMontSerratMedium}" FontSize="18" Foreground="#FFAA0000" TextDecorations="Underline"/>
+                                    <TextBlock Text="Varience:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,65,45,45" FontFamily="{StaticResource iFontMontSerratMedium}" FontSize="18" Foreground="#FFAA0000" TextDecorations="Underline"/>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,0" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                        <ListView x:Name="regularListView3" IsSynchronizedWithCurrentItem="True"  Background="{Binding ForegroundLightGreenBrush}" Margin="0,20,0,40" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
+                                            <DockPanel>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                                <UniformGrid Height="80" Width="150" Background="{Binding ForegroundLightGreenBrush}" >
+                                                    <local:UCValueEntry Height="25" Width="65" Margin="0,0,0,0"/>
+                                                    <local:UCValueEntry Height="25" Margin="0,0,10,0"/>
+                                                    <StackPanel Margin="20,5,-50,0" Width="108" HorizontalAlignment="Center">
+                                                        <local:UCValueEntry Height="25"/>
+                                                    </StackPanel>
+                                                </UniformGrid>
+                                            </DockPanel>
+                                        </ListView>
+                                    </StackPanel>
+                                    <Grid Grid.Column="4" Margin="0,0,10,0">
+                                        <Ellipse VerticalAlignment="Center" Height="60" Width="60" Fill="#FFAA0000" Panel.ZIndex="0" Margin="-104,40,114,40"/>
+                                        <TextBlock Text="" FontFamily="{StaticResource iFontMontSerratMedium}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="#FFAA0000" Panel.ZIndex="1" FontWeight="Bold"/>
+                                    </Grid>
+
+                                </Grid>
+                            </Border>
+                            <!--<local:UCFooterControls/>-->
+                        </StackPanel>
+                        <!--<Separator HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="1275" RenderTransformOrigin="0.5,0.5"/>-->
+                        <!--<StackPanel Grid.Column="0" Margin="0,-8,0,8" />
+                        <local:UCFooterControls Margin="6,364,4,10" Grid.Row="2"/>-->
+                    </Grid>
+
+                    <!--Report Page-->
+                </TabItem>
+                <TabItem Header="ReportPage" FontFamily="{StaticResource iFontMontSerratMedium}" FontSize="{StaticResource FontSizeSmall}" Height="23" VerticalAlignment="Top" Margin="-2,-2,2,0" >
+
+                </TabItem>
+            </TabControl>
+
+        </Grid>
+    </Border>
+</Window>

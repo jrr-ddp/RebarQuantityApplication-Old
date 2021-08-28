@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:RebarQuantityApplication"
+                    >
+
+
+
+    <!--#region Converters-->
+
+    <local:BooleanToVisibilityConverter x:Key="CnvrtrBoolToVisibility"/>
+    <local:DataValueToString x:Key="CnvrtrDateValueToString"/>
+    <local:MultiValueBindingConverter x:Key="CnvrtrMultiValueConcatenate"/>
+    <local:VisibilityToBoolean x:Key="CnvrtrVisibilityToBoolean"/>
+    <local:DoubleToString x:Key="DoubleToStringConverter"/>
+    <local:VerificationConverter x:Key="CnvrtrVerfctn"/>
+    <local:NulltoEmptyConverter x:Key="CnvrtrNull2Empty"/>
+    <local:ViewDisplayToVisibility x:Key="CnvrtrViewToVis"/>
+    <local:StringToVisibility x:Key="CnvrtrStringToVisibility"/>
+    <local:InverseBoolean x:Key="CnrtrInverseBool"/>
+    <!--#endregion-->
+
+    <!--#region  Object Styles-->
+    <Style x:Key="SPStyleListViewItem" TargetType="{x:Type ListViewItem}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <ContentPresenter/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SPStyleButton" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="15" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
+
+    <!--<ObjectDataProvider x:Key="GlobalData" ObjectType="{x:Type local:SingletonData}" MethodName="GetInstance"/>-->
+
+</ResourceDictionary>

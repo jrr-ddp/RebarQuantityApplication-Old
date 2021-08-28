@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="RebarQuantityApplication.UCLabel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RebarQuantityApplication"
+             mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="150" >
+    <Border CornerRadius="10" Margin="10,0" Background="#409ffb">
+        <TextBlock Text="{Binding ContentText, NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCLabel}}}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="{StaticResource iFontMontSerratMedium}" Foreground="White" FontSize="13" />
+    </Border>
+</UserControl>

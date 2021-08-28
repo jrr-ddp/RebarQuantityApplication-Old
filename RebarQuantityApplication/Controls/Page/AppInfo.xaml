@@ -1,0 +1,29 @@
+﻿<Page x:Class="RebarQuantityApplication.AppInfo"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RebarQuantityApplication"
+      mc:Ignorable="d" 
+      d:DesignHeight="250" d:DesignWidth="400"
+      Title="AppInfo">
+    <StackPanel>
+        <TextBlock Text="Appliation Info"
+                   Padding="5"
+                   Background="{StaticResource ForegroundLightGreenBrush}"
+                   Foreground="{StaticResource ForegroundVeryDarkBrush}"
+                   />
+        <TextBlock Text="Appliation Info" Height="160"
+                   Padding="5"
+                   Background="{StaticResource ForegroundLightGreenBrush}"
+                   Foreground="{StaticResource ForegroundLightRedBrush}"
+                   />
+
+        <Button Style="{StaticResource TextButton}" Content="OK"
+                IsDefault="True"
+                IsCancel="True"  
+                Background="{StaticResource MenuForeground}"
+                />
+
+    </StackPanel>
+</Page>

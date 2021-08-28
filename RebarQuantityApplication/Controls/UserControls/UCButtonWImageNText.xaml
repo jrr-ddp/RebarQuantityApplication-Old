@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="RebarQuantityApplication.UCButtonWImageNText"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RebarQuantityApplication"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="150" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}">
+    <Border x:Name="brdrMain" CornerRadius="8" Cursor="Hand" >
+        <Button x:Name="SPCustomButton" Click="SPCustomButton_Click" CommandParameter="{Binding UserCommandParameter, NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:UCButtonWImageNText}}}" Command="{Binding UserCommand, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:UCButtonWImageNText}}}"  Cursor="Hand" Margin="8,0" BorderBrush="{x:Null}" Background="{Binding ElementName=brdrMain,Path=Background,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}" >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}">
+                        <Grid x:Name="grdMain" Margin="3" Cursor="Hand" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Image Width="{Binding ElementName=grdMain,Path=ActualHeight}" Grid.Column="0" Margin="1" x:Name="imgPrimary" StretchDirection="Both" Stretch="Fill" Source="{Binding SourcePrimaryImage, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCButtonWImageNText}}}" />
+                            <Label Grid.Column="1" Margin="5,0,0,0" Content="{Binding TextContent, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCButtonWImageNText}}}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{Binding ContentColor, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCButtonWImageNText}}}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="{Binding HAlignment, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCButtonWImageNText}}}"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Border.Style>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="Border.Background" Value="{Binding BackGroundSolidColor, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCButtonWImageNText}}}"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FF8B7070"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+    </Border>
+</UserControl>

@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="RebarQuantityApplication.UCButtonWImage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RebarQuantityApplication"
+              mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="100" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}">
+    <Grid>
+        <Button x:Name="SPCustomButton" Click="SPCustomButton_Click" CommandParameter="{Binding UserCommandParameter, NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:UCButtonWImage}}}" Command="{Binding UserCommand, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:UCButtonWImage}}}"  Cursor="Hand" >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel>
+                        <Image x:Name="imgPrimary" Visibility="Visible" StretchDirection="Both" Stretch="UniformToFill" Source="{Binding SourcePrimaryImage, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCButtonWImage}}}"/>
+                        <Image x:Name="imgSecondary" Visibility="Collapsed" StretchDirection="Both" Stretch="Fill" Source="{Binding SourceSecondaryImage, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UCButtonWImage}}}"/>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="imgPrimary" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="imgSecondary" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</UserControl>
